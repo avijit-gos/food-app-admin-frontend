@@ -130,3 +130,34 @@
 .delete_header_menu_item {
   color: crimson !important;
 }
+.modal_comp_body {
+  font-weight: 500;
+  font-size: 0.825rem;
+}
+.product_modal_footer {
+  width: 100%;
+  text-align: right;
+}
+.product_btn {
+  width: 100px !important;
+  height: 35px !important;
+  font-size: 0.825rem !important;
+  font-weight: 500 !important;
+  background-color: var(--primary-color) !important;
+  color: var(--primary-text-color) !important;
+}
+.delete_product_btn {
+  background-color: crimson !important;
+}
+.counter_modal_comp_body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.update_count_btn {
+}
+.counter {
+  margin: 0px 5px;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
