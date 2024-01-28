@@ -7,7 +7,9 @@ import ProtectedRoute from "./Authentication/ProtectedRoute";
 import Register from "./Pages/Register/Register";
 import Login from "./Pages/Login/Login";
 import Home from "./Pages/Home/Home";
+import { useSocket, socket } from "./socket/socket";
 function App() {
+  useSocket();
   return (
     <div className='App'>
       <Routes>
