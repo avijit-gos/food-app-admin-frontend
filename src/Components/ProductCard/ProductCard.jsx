@@ -83,6 +83,7 @@ const ProductCard = ({ data }) => {
         console.log(response.data);
         // emitting notification
         socket.emit("notification", response.data.notification);
+        socket.emit("update_price", response.data.notification);
         toast({
           title: "Success.",
           description: `${response.data.msg}`,
@@ -105,7 +106,9 @@ const ProductCard = ({ data }) => {
   };
 
   return (
-    <Box className='pizza_card'>
+    <Box
+      className='pizza_card'
+      onClick={() => navigate(`/product/${data._id}`)}>
       {/* Update price modal */}
       {openUpdatePriceModal && (
         <ModalComp

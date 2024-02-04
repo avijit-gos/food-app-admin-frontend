@@ -1,0 +1,74 @@
+/** @format */
+
+.review_card {
+  border: 1px solid rgb(232, 231, 231);
+  padding: 7px;
+  border-radius: 7px;
+  margin-bottom: 5px;
+  max-width: 450px;
+  width: 100%;
+}
+.review_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.review_user_box {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.review_avatar {
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 50% !important;
+  margin-right: 5px !important;
+}
+.review_user_name {
+  font-weight: bold;
+  font-size: 0.825rem;
+}
+.review_menu_btn {
+  background-color: transparent !important;
+}
+.review_menu_item {
+  font-weight: 500 !important;
+  font-size: 0.825rem !important;
+}
+.delete_menu_item {
+  color: crimson !important;
+}
+.pagination_section {
+  width: 100%;
+  padding: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pagination_btn {
+  width: fit-content !important;
+  height: fit-content !important;
+  background-color: transparent !important;
+  font-weight: 500 !important;
+  font-size: 0.825rem !important;
+}
+.line_chart_sections {
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.line_chart_box {
+  width: 290px;
+  height: 260px;
+  margin: 5px;
+}
+.counter_info {
+  font-weight: 500;
+  font-size: 0.75rem;
+}
+.count {
+  font-weight: bold;
+  font-size: 0.825rem;
+}

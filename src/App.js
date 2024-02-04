@@ -8,6 +8,7 @@ import Register from "./Pages/Register/Register";
 import Login from "./Pages/Login/Login";
 import Home from "./Pages/Home/Home";
 import { useSocket, socket } from "./socket/socket";
+import FullViewItem from "./Pages/FullView/FullViewItem";
 function App() {
   useSocket();
   return (
@@ -22,6 +23,16 @@ function App() {
           element={
             <ProtectedRoute>
               <Home />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path='/product/:id'
+          exact
+          element={
+            <ProtectedRoute>
+              <FullViewItem />
             </ProtectedRoute>
           }
         />
