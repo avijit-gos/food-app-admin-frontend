@@ -2,14 +2,15 @@
 
 import React, { useState, useEffect, useLayoutEffect, Fragment } from "react";
 import { GlobalContext } from "../../Context/Context";
+import Layout from "../../Layout/Layout";
 import { Box, Button, Img } from "@chakra-ui/react";
 import CircleLoader from "../../Components/Loader/CircleLoader/CircleLoader";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import "./FullViewItem.css";
 import { MdKeyboardBackspace } from "react-icons/md";
-import Details from "./components/Details";
-import Analytics from "./components/Analytics";
+import Reviews from "./Reviews";
+import Analytics from "./Analytics";
 
 const FullViewItem = () => {
   const { id } = useParams();
@@ -17,7 +18,8 @@ const FullViewItem = () => {
   const { pageType, setPageType } = GlobalContext();
   const [loading, setLoading] = useState(false);
   const [item, setItem] = useState(null);
-  const [active, setActive] = useState("details");
+  const [active, setActive] = useState("reviews");
+  const [subLoading, setSubLoading] = useState(false);
 
   useLayoutEffect(() => {
     setPageType("full_view");
@@ -35,7 +37,6 @@ const FullViewItem = () => {
     axios
       .request(config)
       .then((response) => {
-        console.log(response.data);
         setItem(response.data);
         setLoading(false);
       })
@@ -48,6 +49,7 @@ const FullViewItem = () => {
 
   const handleChangeTab = (value) => {
     setActive(value);
+    setSubLoading(true);
   };
 
   return (
@@ -68,40 +70,44 @@ const FullViewItem = () => {
                 <Box className='product_title'>{item.title}</Box>
               </Box>
 
-              {/* Body Section */}
               <Box className='full_product_body'>
-                {/* Tab section */}
-                <Box className='tab_section'>
-                  {/* Details section */}
+                <Img src={item.image} className='product_image' />
+                <Box className='product_title'>{item.title}</Box>
+                <Box className='product_description'>{item.description}</Box>
+
+                <Box className='ite_tab_section'>
                   <Box
-                    onClick={() => handleChangeTab("details")}
                     className={
-                      active === "details"
+                      active === "reviews"
                         ? "tab_item active_tab_item"
-                        : "tab_item"
-                    }>
-                    Details
+                        : "tab_item "
+                    }
+                    onClick={() => handleChangeTab("reviews")}>
+                    Reviews
                   </Box>
-                  {/* Analytics Section */}
+
                   <Box
-                    onClick={() => handleChangeTab("analytics")}
                     className={
                       active === "analytics"
                         ? "tab_item active_tab_item"
-                        : "tab_item "
-                    }>
+                        : "tab_item"
+                    }
+                    onClick={() => handleChangeTab("analytics")}>
                     Analytics
                   </Box>
                 </Box>
 
-                {/* Tab item container */}
-                <>
-                  {active === "details" ? (
-                    <Details item={item} />
-                  ) : (
-                    <Analytics />
-                  )}
-                </>
+                {active === "reviews" ? (
+                  <Reviews
+                    subLoading={subLoading}
+                    setSubLoading={setSubLoading}
+                  />
+                ) : (
+                  <Analytics
+                    subLoading={subLoading}
+                    setSubLoading={setSubLoading}
+                  />
+                )}
               </Box>
             </Box>
           ) : (

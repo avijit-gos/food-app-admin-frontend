@@ -3,9 +3,9 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { Box, Button, Spinner } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
-import CircleLoader from "../../Components/Loader/CircleLoader/CircleLoader";
+import CircleLoader from "../../../Components/Loader/CircleLoader/CircleLoader";
 import axios from "axios";
-import ReviewsCard from "../../Components/ReviewsCard/ReviewsCard";
+import ReviewsCard from "../../../Components/ReviewsCard/ReviewsCard";
 
 const Reviews = ({ subLoading, setSubLoading }) => {
   const { id } = useParams();

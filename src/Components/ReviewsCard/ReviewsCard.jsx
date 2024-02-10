@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { MdMoreHoriz } from "react-icons/md";
 import "./ReviewsCard.css";
+import timeDifference from "../../Utils/getTimeDifference";
 
 const ReviewsCard = ({ review }) => {
   return (
@@ -21,6 +22,10 @@ const ReviewsCard = ({ review }) => {
         <Box className='review_user_box'>
           <Avatar src='' className='review_avatar' />
           <span className='review_user_name'>{review.user.name}</span>
+          <span className='time'>
+            {" "}
+            {timeDifference(new Date(), new Date(review.createdAt))}
+          </span>
         </Box>
         {/* Menu list */}
         <Menu>

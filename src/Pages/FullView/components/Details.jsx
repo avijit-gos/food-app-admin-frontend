@@ -10,34 +10,36 @@ import {
   Button,
   useToast,
 } from "@chakra-ui/react";
-import React, { useState, useEffect } from "react";
-import "./ProductCard.css";
-import { useNavigate } from "react-router-dom";
-import { FaRupeeSign } from "react-icons/fa";
-import { MdMoreHoriz } from "react-icons/md";
-import ModalComp from "../ModalComp/ModalComp";
-import ButtonComp from "../ButtonComp/ButtonComp";
+import React, { useEffect, useState } from "react";
+import { MdMoreVert } from "react-icons/md";
+import ModalComp from "../../../Components/ModalComp/ModalComp";
+import ButtonComp from "../../../Components/ButtonComp/ButtonComp";
 import axios from "axios";
 import { FaPlus, FaMinus } from "react-icons/fa";
-import { useSocket, socket } from "../../socket/socket";
-import InputComp from "../InputComp/InputComp";
-import TextareaComp from "../InputComp/TextareraComp";
+import { useSocket, socket } from "../../../socket/socket";
+import { MdOutlineCurrencyRupee } from "react-icons/md";
+import { TotalRatingCount } from "../../../Utils/TotalRatingCount";
+import Reviews from "./Reviews";
+import InputComp from "../../../Components/InputComp/InputComp";
+import TextareaComp from "../../../Components/InputComp/TextareraComp";
 
-const ProductCard = ({ data }) => {
+const Details = ({ item }) => {
+  useSocket();
   const toast = useToast();
-  const navigate = useNavigate();
-  const [image, setImage] = useState(data.image);
-  const [title, setTitle] = useState(data.title || "");
-  const [description, setDescription] = useState(data.description || "");
-  const [price, setPrice] = useState(Number(data.price));
+  const [image, setImage] = useState(item.image);
+  const [name, setName] = useState(item.title);
+  const [desription, setDescription] = useState(item.description);
+  const [price, setPrice] = useState(item.price);
+  const [type, settype] = useState(item.p_type);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [disable, setDisable] = useState(true);
+  const [subLoading, setSubLoading] = useState(false);
   const [openUpdatePriceModal, setUpdatePriceModal] = useState(false);
   const [openUpdateDetailsModal, setUpdateDetailsModal] = useState(false);
-  const [productTitle, setProductTitle] = useState(data.title);
+  const [productTitle, setProductTitle] = useState(item.title);
   const [productDescription, setProductDescription] = useState(
-    data.description
+    item.description
   );
 
   // handle delete product...
@@ -45,7 +47,7 @@ const ProductCard = ({ data }) => {
     let config = {
       method: "delete",
       maxBodyLength: Infinity,
-      url: `${process.env.REACT_APP_BASE_URL}api/product/delete/${data._id}`,
+      url: `${process.env.REACT_APP_BASE_URL}api/product/delete/${item._id}`,
       headers: {
         "x-access-token": localStorage.getItem("token"),
       },
@@ -68,7 +70,7 @@ const ProductCard = ({ data }) => {
   // *** Handle update price
   const handleUpdatePrice = () => {
     console.log(
-      `${process.env.REACT_APP_BASE_URL}api/product/update/price/${data._id}`
+      `${process.env.REACT_APP_BASE_URL}api/product/update/price/${item._id}`
     );
     let value = JSON.stringify({
       price: price,
@@ -77,7 +79,7 @@ const ProductCard = ({ data }) => {
     let config = {
       method: "put",
       maxBodyLength: Infinity,
-      url: `${process.env.REACT_APP_BASE_URL}api/product/update/price/${data._id}`,
+      url: `${process.env.REACT_APP_BASE_URL}api/product/update/price/${item._id}`,
       headers: {
         "x-access-token": localStorage.getItem("token"),
         "Content-Type": "application/json",
@@ -121,19 +123,19 @@ const ProductCard = ({ data }) => {
     if (
       !productTitle.trim() ||
       !productDescription.trim() ||
-      productTitle === title ||
-      productDescription === description
+      productTitle === name ||
+      productDescription === desription
     ) {
       setDisable(true);
     } else {
       setDisable(false);
     }
-  }, [productTitle, productDescription, title, description]);
+  }, [productTitle, productDescription, name, desription]);
 
   const handleUpdateProduct = () => {
     setDisable(true);
     setLoading(true);
-    let detailsData = JSON.stringify({
+    let data = JSON.stringify({
       title: productTitle,
       description: productDescription,
     });
@@ -141,12 +143,12 @@ const ProductCard = ({ data }) => {
     let config = {
       method: "put",
       maxBodyLength: Infinity,
-      url: `${process.env.REACT_APP_BASE_URL}api/product/update/details/${data._id}`,
+      url: `${process.env.REACT_APP_BASE_URL}api/product/update/details/${item._id}`,
       headers: {
         "x-access-token": localStorage.getItem("token"),
         "Content-Type": "application/json",
       },
-      data: detailsData,
+      data: data,
     };
     axios
       .request(config)
@@ -159,7 +161,7 @@ const ProductCard = ({ data }) => {
           duration: 4000,
           isClosable: true,
         });
-        setTitle(productTitle);
+        setName(productTitle);
         setDescription(productDescription);
         setLoading(false);
         setUpdateDetailsModal(false);
@@ -179,7 +181,7 @@ const ProductCard = ({ data }) => {
   };
 
   return (
-    <Box className='pizza_card'>
+    <Box className='details_container_section'>
       {/* Update price modal */}
       {openUpdatePriceModal && (
         <ModalComp
@@ -282,50 +284,57 @@ const ProductCard = ({ data }) => {
         />
       )}
       {/* Image section */}
-      <Img src={image} className='card_image' />
-      <Box
-        className='card_title'
-        onClick={() => navigate(`/product/${data._id}`)}>
-        {title}
+      <Box className='full_view_image_section'>
+        <Img src={image} className='full_view_image' />
+        <Menu>
+          <MenuButton
+            as={Button}
+            rightIcon={<MdMoreVert />}
+            className='menu_btn'></MenuButton>
+          <MenuList>
+            <MenuItem
+              className='header_menu_item'
+              onClick={() => setUpdatePriceModal(true)}>
+              Update price
+            </MenuItem>
+            <MenuItem
+              className='header_menu_item'
+              onClick={() => setUpdateDetailsModal(true)}>
+              Update product details
+            </MenuItem>
+            <MenuItem
+              className='header_menu_item delete_header_menu_item'
+              onClick={() => setOpenDeleteModal(true)}>
+              Delete
+            </MenuItem>
+          </MenuList>
+        </Menu>
       </Box>
-      <Box
-        className='card_description'
-        onClick={() => navigate(`/product/${data._id}`)}>
-        {description.slice(0, 111)}
-        {description.length > 110 && <>...</>}
-        <Box className='item_price_section'>
-          Price:{" "}
-          <span className='item_price_icon'>
-            <FaRupeeSign />
-          </span>
-          <span className='item_price'>{price}</span>
+
+      {/* Item Body section */}
+      <Box className='product_body_section'>
+        <Box className='product_title'>{name}</Box>
+        <Box className='product_description'>{desription}</Box>
+        <Box className='product_info_section'>
+          <Box className='product_price'>
+            <MdOutlineCurrencyRupee />
+            {price}
+          </Box>
+          <Box className='product_type'>{type.toUpperCase()}</Box>
+          <Box className='product_rating'>
+            Total raing {TotalRatingCount(item.rating)} out of{" "}
+            {item.rating.length} users
+          </Box>
         </Box>
       </Box>
 
-      <Menu>
-        <MenuButton as={Button} className='product_card_menu_btn'>
-          <MdMoreHoriz />
-        </MenuButton>
-        <MenuList>
-          <MenuItem
-            className='header_menu_item'
-            onClick={() => setUpdatePriceModal(true)}>
-            Update price
-          </MenuItem>
-          <MenuItem
-            className='header_menu_item'
-            onClick={() => setUpdateDetailsModal(true)}>
-            Update product details
-          </MenuItem>
-          <MenuItem
-            className='header_menu_item delete_header_menu_item'
-            onClick={() => setOpenDeleteModal(true)}>
-            Delete
-          </MenuItem>
-        </MenuList>
-      </Menu>
+      {/* Product Reviews Section */}
+      <Box className='product_reviews_section'>
+        <Box className='product_reviews_title'>User reviews</Box>
+        <Reviews subLoading={subLoading} setSubLoading={setSubLoading} />
+      </Box>
     </Box>
   );
 };
 
-export default ProductCard;
+export default Details;

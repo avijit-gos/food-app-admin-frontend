@@ -1,32 +1,39 @@
 /** @format */
 
 .review_card {
-  border: 1px solid rgb(232, 231, 231);
-  padding: 7px;
-  border-radius: 7px;
-  margin-bottom: 5px;
-  max-width: 450px;
+  background-color: rgba(241, 242, 246, 0.6);
   width: 100%;
+  height: auto;
+  padding: 5px;
+  border-radius: 5px;
+  margin-bottom: 4px;
 }
 .review_header {
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 .review_user_box {
   width: 100%;
+  height: auto;
   display: flex;
   align-items: center;
 }
 .review_avatar {
-  width: 32px !important;
-  height: 32px !important;
-  border-radius: 50% !important;
-  margin-right: 5px !important;
+  width: 30px !important;
+  height: 30px !important;
+  margin-right: 5px;
 }
 .review_user_name {
-  font-weight: bold;
-  font-size: 0.825rem;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+.time {
+  margin-left: 5px;
+  font-weight: 400;
+  font-size: 0.7rem;
+  color: rgb(135, 135, 135);
 }
 .review_menu_btn {
   background-color: transparent !important;
@@ -38,37 +45,8 @@
 .delete_menu_item {
   color: crimson !important;
 }
-.pagination_section {
-  width: 100%;
-  padding: 7px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.pagination_btn {
-  width: fit-content !important;
-  height: fit-content !important;
-  background-color: transparent !important;
-  font-weight: 500 !important;
-  font-size: 0.825rem !important;
-}
-.line_chart_sections {
-  width: 100%;
-  height: auto;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-}
-.line_chart_box {
-  width: 290px;
-  height: 260px;
-  margin: 5px;
-}
-.counter_info {
+.review_card_body {
+  margin: 2px 0;
   font-weight: 500;
-  font-size: 0.75rem;
-}
-.count {
-  font-weight: bold;
-  font-size: 0.825rem;
+  font-size: 0.85rem;
 }
